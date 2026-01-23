@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Code2, Layers, Terminal, Cpu } from "lucide-react";
+import { ArrowLeft, ExternalLink, Code2, Layers, Terminal, Cpu, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
@@ -12,6 +12,7 @@ const ProjectDetail = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const project = projects.find((p) => p.id === id);
 
@@ -37,6 +38,16 @@ const ProjectDetail = () => {
       default:
         return <Layers className="w-4 h-4" />;
     }
+  };
+
+  const images = project.images;
+
+  const nextImage = () => {
+    setSelectedImage((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
   };
 
   return (
@@ -139,41 +150,99 @@ const ProjectDetail = () => {
               </Button>
             </div>
 
-            {/* Right Column - Project Image */}
-            <div className="relative animate-scale-in">
-              {/* Glow Effect */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-[hsl(var(--terminal-green)/0.2)] via-[hsl(var(--terminal-purple)/0.1)] to-[hsl(var(--terminal-blue)/0.2)] rounded-2xl blur-xl opacity-60" />
-              
-              {/* Image Container */}
-              <div className="relative rounded-xl overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm">
-                {/* Terminal Header */}
-                <div className="flex items-center gap-2 px-4 py-3 bg-card/80 border-b border-border/50">
-                  <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-red))]" />
-                  <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-yellow))]" />
-                  <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-green))]" />
-                  <span className="ml-3 text-xs text-muted-foreground font-mono">preview.png</span>
-                </div>
+            {/* Right Column - Project Images Gallery */}
+            <div className="relative animate-scale-in space-y-4">
+              {/* Main Image */}
+              <div className="relative">
+                {/* Glow Effect */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-[hsl(var(--terminal-green)/0.2)] via-[hsl(var(--terminal-purple)/0.1)] to-[hsl(var(--terminal-blue)/0.2)] rounded-2xl blur-xl opacity-60" />
                 
-                {/* Image */}
-                <div className="relative aspect-video">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Scan Line Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(var(--terminal-green)/0.02)] to-transparent pointer-events-none" />
-                  <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
-                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--terminal-green) / 0.03) 2px, hsl(var(--terminal-green) / 0.03) 4px)'
-                  }} />
+                {/* Image Container */}
+                <div className="relative rounded-xl overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm">
+                  {/* Terminal Header */}
+                  <div className="flex items-center justify-between px-4 py-3 bg-card/80 border-b border-border/50">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-red))]" />
+                      <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-yellow))]" />
+                      <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-green))]" />
+                      <span className="ml-3 text-xs text-muted-foreground font-mono">
+                        preview_{selectedImage + 1}.png
+                      </span>
+                    </div>
+                    {images.length > 1 && (
+                      <span className="text-xs text-[hsl(var(--terminal-green))] font-mono">
+                        {selectedImage + 1} / {images.length}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Image */}
+                  <div className="relative aspect-video">
+                    <img
+                      src={images[selectedImage]}
+                      alt={`${project.title} - Screenshot ${selectedImage + 1}`}
+                      className="w-full h-full object-cover transition-opacity duration-300"
+                    />
+                    {/* Scan Line Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(var(--terminal-green)/0.02)] to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+                      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--terminal-green) / 0.03) 2px, hsl(var(--terminal-green) / 0.03) 4px)'
+                    }} />
+
+                    {/* Navigation Arrows */}
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border border-[hsl(var(--terminal-green)/0.5)] text-[hsl(var(--terminal-green))] hover:bg-[hsl(var(--terminal-green)/0.2)] transition-all duration-200"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border border-[hsl(var(--terminal-green)/0.5)] text-[hsl(var(--terminal-green))] hover:bg-[hsl(var(--terminal-green)/0.2)] transition-all duration-200"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
+
+                {/* Decorative Corner Elements */}
+                <div className="absolute -top-2 -left-2 w-6 h-6 border-l-2 border-t-2 border-[hsl(var(--terminal-green))] opacity-60" />
+                <div className="absolute -top-2 -right-2 w-6 h-6 border-r-2 border-t-2 border-[hsl(var(--terminal-green))] opacity-60" />
+                <div className="absolute -bottom-2 -left-2 w-6 h-6 border-l-2 border-b-2 border-[hsl(var(--terminal-green))] opacity-60" />
+                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-r-2 border-b-2 border-[hsl(var(--terminal-green))] opacity-60" />
               </div>
 
-              {/* Decorative Corner Elements */}
-              <div className="absolute -top-2 -left-2 w-6 h-6 border-l-2 border-t-2 border-[hsl(var(--terminal-green))] opacity-60" />
-              <div className="absolute -top-2 -right-2 w-6 h-6 border-r-2 border-t-2 border-[hsl(var(--terminal-green))] opacity-60" />
-              <div className="absolute -bottom-2 -left-2 w-6 h-6 border-l-2 border-b-2 border-[hsl(var(--terminal-green))] opacity-60" />
-              <div className="absolute -bottom-2 -right-2 w-6 h-6 border-r-2 border-b-2 border-[hsl(var(--terminal-green))] opacity-60" />
+              {/* Thumbnail Strip */}
+              {images.length > 1 && (
+                <div className="flex gap-3 justify-center">
+                  {images.map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(index)}
+                      className={`
+                        relative w-16 h-12 rounded-lg overflow-hidden border-2 transition-all duration-300
+                        ${selectedImage === index 
+                          ? 'border-[hsl(var(--terminal-green))] shadow-[0_0_15px_hsl(var(--terminal-green)/0.4)]' 
+                          : 'border-border/50 opacity-60 hover:opacity-100'
+                        }
+                      `}
+                    >
+                      <img
+                        src={img}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      {selectedImage === index && (
+                        <div className="absolute inset-0 bg-[hsl(var(--terminal-green)/0.1)]" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
