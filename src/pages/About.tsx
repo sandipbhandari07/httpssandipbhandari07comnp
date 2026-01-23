@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import BlobBackground from "@/components/BlobBackground";
 import { Github, Linkedin, Mail, MapPin, Music, Play, Code2, Database, Cloud, Sparkles } from "lucide-react";
+import profileImage from "@/assets/profile-sandip.jpg";
 const About = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredPlaylist, setHoveredPlaylist] = useState<number | null>(null);
@@ -60,7 +61,7 @@ const About = () => {
               <div className="relative flex-shrink-0">
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[hsl(var(--terminal-green))] to-[hsl(var(--terminal-purple))] opacity-60 blur-sm animate-pulse" />
                 <div className="relative w-28 h-28 rounded-2xl overflow-hidden border-2 border-[hsl(var(--terminal-green))]">
-                  
+                  <img src={profileImage} alt="Sandip Bhandari" className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[hsl(var(--terminal-green))] rounded-full flex items-center justify-center border-2 border-background">
                   <div className="w-2 h-2 bg-background rounded-full" />
