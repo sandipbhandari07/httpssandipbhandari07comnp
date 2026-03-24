@@ -1,3 +1,5 @@
+export type ProjectType = "github" | "published";
+
 export interface Project {
   id: string;
   title: string;
@@ -8,6 +10,8 @@ export interface Project {
   imageUrl: string;
   images: string[];
   category: string;
+  type: ProjectType;
+  playStoreUrl?: string;
 }
 
 export const projects: Project[] = [
