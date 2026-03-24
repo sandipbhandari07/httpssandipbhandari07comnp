@@ -16,7 +16,7 @@ const Contact = () => {
 
   const socialLinks = [
     { id: "github", icon: Github, label: "GitHub", href: "https://github.com/sandipbhandari07", username: "@sandipbhandari07" },
-    { id: "linkedin", icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/sandipbhandari07", username: "Sandip Bhandari" },
+    { id: "linkedin", icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/sandipbhandari07/", username: "Sandip Bhandari" },
   ];
 
   return (

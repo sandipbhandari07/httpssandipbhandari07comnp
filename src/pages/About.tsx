@@ -93,10 +93,10 @@ const About = () => {
                     <span className="text-xs font-mono text-[hsl(var(--terminal-green))]">Available</span>
                   </div>
                   <div className="flex gap-2 ml-auto">
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-secondary/50 border border-border/50 flex items-center justify-center hover:bg-[hsl(var(--terminal-green))]/20 hover:border-[hsl(var(--terminal-green))]/50 hover:text-[hsl(var(--terminal-green))] transition-all">
+                    <a href="https://github.com/sandipbhandari07" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-secondary/50 border border-border/50 flex items-center justify-center hover:bg-[hsl(var(--terminal-green))]/20 hover:border-[hsl(var(--terminal-green))]/50 hover:text-[hsl(var(--terminal-green))] transition-all">
                       <Github className="w-4 h-4" />
                     </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-secondary/50 border border-border/50 flex items-center justify-center hover:bg-[hsl(var(--terminal-purple))]/20 hover:border-[hsl(var(--terminal-purple))]/50 hover:text-[hsl(var(--terminal-purple))] transition-all">
+                    <a href="https://www.linkedin.com/in/sandipbhandari07/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-secondary/50 border border-border/50 flex items-center justify-center hover:bg-[hsl(var(--terminal-purple))]/20 hover:border-[hsl(var(--terminal-purple))]/50 hover:text-[hsl(var(--terminal-purple))] transition-all">
                       <Linkedin className="w-4 h-4" />
                     </a>
                   </div>
