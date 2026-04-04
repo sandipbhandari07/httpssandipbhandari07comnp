@@ -3,6 +3,41 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import BlobBackground from "@/components/BlobBackground";
+import { DartCodeBlock } from "@/lib/dartHighlighter";
+import { ArrowRight } from "lucide-react";
+
+const heroCode = `import 'package:flutter/material.dart';
+
+class SandipBhandari extends Developer {
+  final String name = 'Sandip Bhandari';
+  final String role = 'Mobile & Web Developer';
+  final String location = 'Nepal 🇳🇵';
+
+  List<String> get expertise => [
+    'Flutter & Dart',
+    'Android Development',
+    'RESTful APIs',
+    'Laravel & Django',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Portfolio(
+      theme: ThemeData.dark(),
+      passion: 'Building beautiful apps',
+    );
+  }
+}`;
+
+const skillsCode = `// skills.dart
+final Map<String, List<String>> skills = {
+  'Mobile': ['Flutter', 'Dart', 'Java', 'Android'],
+  'Backend': ['PHP', 'Python', 'Laravel', 'Django'],
+  'Database': ['MySQL', 'PostgreSQL', 'Firebase'],
+  'Tools': ['Git', 'Docker', 'VS Code', 'Figma'],
+};
+
+void main() => runApp(SandipBhandari());`;
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,62 +49,47 @@ const Index = () => {
       <Header onMenuOpen={() => setMenuOpen(true)} />
       <MenuOverlay isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <main className="min-h-screen flex items-center justify-center px-8 md:px-16 pt-24">
-        <div className="max-w-4xl mx-auto w-full animate-fade-in">
-          <div className="bg-card border border-border rounded-lg p-8 md:p-12 shadow-2xl font-mono">
-            {/* Terminal Header */}
-            <div className="flex gap-2 mb-8">
-              <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-red))]" />
-              <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-yellow))]" />
-              <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-green))]" />
+      <main className="h-screen flex items-center justify-center px-6 md:px-12 pt-20 pb-8">
+        <div className="max-w-6xl mx-auto w-full animate-fade-in">
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            {/* Left: Main Dart code block */}
+            <div className="space-y-4">
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green to-terminal-purple opacity-20 blur-xl" />
+                <DartCodeBlock code={heroCode} fileName="main.dart" className="relative" />
+              </div>
+
+              {/* CTA buttons */}
+              <div className="flex gap-3 font-mono">
+                <button
+                  onClick={() => navigate("/work")}
+                  className="group flex items-center gap-2 px-5 py-3 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-sm text-terminal-green"
+                >
+                  viewProjects()
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="px-5 py-3 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-sm text-terminal-purple"
+                >
+                  getInTouch()
+                </button>
+              </div>
             </div>
-            
-            {/* Terminal Content */}
-            <div className="space-y-6">
-              <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                <span className="text-[hsl(var(--terminal-green))]">$ </span>
-                <span className="text-[hsl(var(--terminal-purple))]">whoami</span>
-              </div>
-              
-              <div className="animate-fade-in pl-0" style={{ animationDelay: '0.3s' }}>
-                <h1 className="text-4xl md:text-6xl font-bold mb-2">
-                  Sandip Bhandari
-                </h1>
-                <p className="text-lg md:text-xl text-muted-foreground">
-                  Android Developer · RESTful API Developer · Web Developer
-                </p>
-              </div>
 
-              <div className="animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                <span className="text-[hsl(var(--terminal-green))]">$ </span>
-                <span className="text-[hsl(var(--terminal-purple))]">cat</span>
-                <span className="text-foreground"> description.txt</span>
-              </div>
+            {/* Right: Skills code block */}
+            <div className="space-y-4">
+              <DartCodeBlock code={skillsCode} fileName="skills.dart" />
 
-              <div className="animate-fade-in pl-0 text-muted-foreground" style={{ animationDelay: '0.7s' }}>
-                <p className="leading-relaxed">
-                  Passionate developer working with mobile and web technologies.
-                  Specializing in Android development, RESTful APIs, and building
-                  modern applications with Laravel and Django.
-                </p>
-              </div>
-
-              <div className="animate-fade-in" style={{ animationDelay: '0.9s' }}>
-                <span className="text-[hsl(var(--terminal-green))]">$ </span>
-                <span className="text-[hsl(var(--terminal-purple))]">ls</span>
-                <span className="text-foreground"> skills/</span>
-              </div>
-
-              <div className="animate-fade-in flex flex-wrap gap-2 pl-0" style={{ animationDelay: '1.1s' }}>
-                {['Flutter', 'Java', 'PHP', 'Python', 'Laravel', 'Django', 'Firebase'].map((skill, index) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1 bg-secondary border border-border rounded text-sm hover:border-[hsl(var(--terminal-green))] transition-colors"
-                    style={{ animationDelay: `${1.1 + index * 0.1}s` }}
-                  >
-                    {skill}
-                  </span>
-                ))}
+              {/* Status indicator */}
+              <div className="flex items-center gap-3 px-4 py-3 bg-card/60 border border-border/50 rounded-xl font-mono text-xs">
+                <div className="relative">
+                  <div className="w-3 h-3 rounded-full bg-terminal-green" />
+                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-terminal-green animate-ping opacity-75" />
+                </div>
+                <span className="text-muted-foreground">
+                  <span className="text-terminal-green">status</span>: <span className="text-terminal-green">'Available for work'</span>
+                </span>
               </div>
             </div>
           </div>
