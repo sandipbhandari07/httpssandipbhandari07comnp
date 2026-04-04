@@ -87,72 +87,7 @@ class BrightAngels {
   },
 ];
 
-// Simple Dart syntax highlighter
-const highlightDart = (code: string) => {
-  const keywords = /\b(class|extends|implements|with|final|void|async|await|return|override|get|String|List|DateTime|Future|int|double|bool)\b/g;
-  const annotations = /(@\w+)/g;
-  const strings = /('[^']*')/g;
-  const comments = /(\/\/.*)/g;
-  const numbers = /\b(\d+\.?\d*)\b/g;
-  const arrows = /(=>)/g;
-
-  const lines = code.split("\n");
-  return lines.map((line, lineIdx) => {
-    const parts: { text: string; type: string }[] = [];
-    let remaining = line;
-    const tokens: { start: number; end: number; type: string }[] = [];
-
-    const findAll = (regex: RegExp, type: string) => {
-      let match;
-      const r = new RegExp(regex.source, "g");
-      while ((match = r.exec(line)) !== null) {
-        tokens.push({ start: match.index, end: match.index + match[0].length, type });
-      }
-    };
-
-    findAll(comments, "comment");
-    findAll(annotations, "annotation");
-    findAll(strings, "string");
-    findAll(keywords, "keyword");
-    findAll(arrows, "arrow");
-    findAll(numbers, "number");
-
-    tokens.sort((a, b) => a.start - b.start);
-
-    // Remove overlapping tokens
-    const filtered: typeof tokens = [];
-    let lastEnd = 0;
-    for (const t of tokens) {
-      if (t.start >= lastEnd) {
-        filtered.push(t);
-        lastEnd = t.end;
-      }
-    }
-
-    let pos = 0;
-    const elements: JSX.Element[] = [];
-    for (const t of filtered) {
-      if (t.start > pos) {
-        elements.push(<span key={`${lineIdx}-${pos}`} className="text-foreground/80">{line.slice(pos, t.start)}</span>);
-      }
-      const colorMap: Record<string, string> = {
-        keyword: "text-terminal-blue",
-        annotation: "text-terminal-yellow",
-        string: "text-terminal-green",
-        comment: "text-muted-foreground italic",
-        number: "text-terminal-yellow",
-        arrow: "text-terminal-red",
-      };
-      elements.push(<span key={`${lineIdx}-${t.start}`} className={colorMap[t.type]}>{line.slice(t.start, t.end)}</span>);
-      pos = t.end;
-    }
-    if (pos < line.length) {
-      elements.push(<span key={`${lineIdx}-${pos}`} className="text-foreground/80">{line.slice(pos)}</span>);
-    }
-
-    return elements;
-  });
-};
+import { highlightDart } from "@/lib/dartHighlighter";
 
 const Timeline = () => {
   const [menuOpen, setMenuOpen] = useState(false);
