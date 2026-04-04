@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import BlobBackground from "@/components/BlobBackground";
 import { Briefcase, GraduationCap, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { highlightDart } from "@/lib/dartHighlighter";
 
 const timelineData = [
   {
