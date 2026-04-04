@@ -88,7 +88,6 @@ class BrightAngels {
   },
 ];
 
-import { highlightDart } from "@/lib/dartHighlighter";
 
 const Timeline = () => {
   const [menuOpen, setMenuOpen] = useState(false);
