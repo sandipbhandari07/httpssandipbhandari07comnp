@@ -35,24 +35,24 @@ export const highlightDart = (code: string) => {
     let pos = 0;
     const elements: React.ReactNode[] = [];
     const colorMap: Record<string, string> = {
-      keyword: "text-terminal-blue",
-      type: "text-terminal-purple",
+      keyword: "text-terminal-pink font-medium",
+      type: "text-terminal-cyan",
       annotation: "text-terminal-yellow",
       string: "text-terminal-green",
-      comment: "text-muted-foreground italic",
-      number: "text-terminal-yellow",
-      arrow: "text-terminal-red",
+      comment: "text-muted-foreground/60 italic",
+      number: "text-terminal-orange",
+      arrow: "text-terminal-pink",
     };
 
     for (const t of filtered) {
       if (t.start > pos) {
-        elements.push(<span key={`${lineIdx}-${pos}`} className="text-foreground/80">{line.slice(pos, t.start)}</span>);
+        elements.push(<span key={`${lineIdx}-${pos}`} className="text-foreground/90">{line.slice(pos, t.start)}</span>);
       }
       elements.push(<span key={`${lineIdx}-${t.start}`} className={colorMap[t.type]}>{line.slice(t.start, t.end)}</span>);
       pos = t.end;
     }
     if (pos < line.length) {
-      elements.push(<span key={`${lineIdx}-${pos}`} className="text-foreground/80">{line.slice(pos)}</span>);
+      elements.push(<span key={`${lineIdx}-${pos}`} className="text-foreground/90">{line.slice(pos)}</span>);
     }
 
     return elements;
@@ -68,22 +68,27 @@ interface DartCodeBlockProps {
 export const DartCodeBlock = ({ code, fileName, className = "" }: DartCodeBlockProps) => {
   const highlighted = highlightDart(code);
   return (
-    <div className={`rounded-xl border border-border/50 bg-card/80 backdrop-blur-xl overflow-hidden ${className}`}>
+    <div className={`rounded-xl border border-border/40 bg-code-bg backdrop-blur-xl overflow-hidden shadow-lg shadow-black/20 ${className}`}>
       {/* Code header */}
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 bg-background/50">
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/20 bg-background/30">
         <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-terminal-red/70" />
-          <div className="w-2.5 h-2.5 rounded-full bg-terminal-yellow/70" />
-          <div className="w-2.5 h-2.5 rounded-full bg-terminal-green/70" />
+          <div className="w-3 h-3 rounded-full bg-terminal-red/80 hover:bg-terminal-red transition-colors" />
+          <div className="w-3 h-3 rounded-full bg-terminal-yellow/80 hover:bg-terminal-yellow transition-colors" />
+          <div className="w-3 h-3 rounded-full bg-terminal-green/80 hover:bg-terminal-green transition-colors" />
         </div>
-        <span className="text-[11px] font-mono text-muted-foreground ml-2">{fileName}</span>
+        <div className="flex items-center gap-2 ml-3 px-3 py-1 rounded-md bg-code-line-highlight/60 border-b-2 border-terminal-blue/60">
+          <svg className="w-3 h-3 text-terminal-blue" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3.889 4L7.333 12l-3.444 8h4.12l5.444-8-5.444-8H3.89zm8.444 0L15.778 12l-3.445 8h4.12l5.445-8-5.444-8h-4.12z"/>
+          </svg>
+          <span className="text-xs font-mono text-foreground/70">{fileName}</span>
+        </div>
       </div>
       {/* Code content */}
-      <div className="p-4 font-mono text-[13px] leading-relaxed overflow-x-auto">
+      <div className="p-4 font-mono text-[13px] leading-[1.7] overflow-x-auto">
         {highlighted.map((lineElements, i) => (
-          <div key={i} className="flex">
-            <span className="w-6 text-right mr-4 text-muted-foreground/40 select-none text-xs">{i + 1}</span>
-            <span>{lineElements}</span>
+          <div key={i} className="flex hover:bg-code-line-highlight/40 rounded-sm -mx-2 px-2 transition-colors">
+            <span className="w-7 text-right mr-4 text-muted-foreground/30 select-none text-xs leading-[1.7]">{i + 1}</span>
+            <span className="flex-1">{lineElements}</span>
           </div>
         ))}
       </div>
