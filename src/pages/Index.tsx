@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import BlobBackground from "@/components/BlobBackground";
 import { DartCodeBlock } from "@/lib/dartHighlighter";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 
 const heroCode = `import 'package:flutter/material.dart';
 
@@ -49,37 +49,50 @@ const Index = () => {
       <Header onMenuOpen={() => setMenuOpen(true)} />
       <MenuOverlay isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <main className="h-screen flex items-center justify-center px-6 md:px-12 pt-20 pb-8">
+      <main className="h-screen flex items-center justify-center px-6 md:px-12">
         <div className="max-w-6xl mx-auto w-full animate-fade-in">
-          <div className="grid md:grid-cols-2 gap-6 items-center">
+          {/* Welcome badge */}
+          <div className="flex items-center gap-2 mb-6">
+            <div className="flex items-center gap-2 px-4 py-2 bg-card/60 border border-border/50 rounded-full font-mono text-xs">
+              <Terminal className="w-3.5 h-3.5 text-terminal-green" />
+              <span className="text-muted-foreground">~/sandip-bhandari</span>
+              <span className="text-terminal-green">$</span>
+              <span className="text-terminal-cyan">flutter run</span>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 items-stretch">
             {/* Left: Main Dart code block */}
-            <div className="space-y-4">
-              <div className="relative">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green to-terminal-purple opacity-20 blur-xl" />
-                <DartCodeBlock code={heroCode} fileName="main.dart" className="relative" />
+            <div className="flex flex-col gap-4">
+              <div className="relative flex-1">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green/20 to-terminal-purple/20 blur-xl" />
+                <DartCodeBlock code={heroCode} fileName="main.dart" className="relative h-full" />
               </div>
 
               {/* CTA buttons */}
               <div className="flex gap-3 font-mono">
                 <button
                   onClick={() => navigate("/work")}
-                  className="group flex items-center gap-2 px-5 py-3 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-sm text-terminal-green"
+                  className="group flex items-center gap-2 px-5 py-3 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-sm text-terminal-green hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
                 >
                   viewProjects()
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="px-5 py-3 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-sm text-terminal-purple"
+                  className="px-5 py-3 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-sm text-terminal-purple hover:shadow-[0_0_20px_hsl(var(--terminal-purple)/0.2)]"
                 >
                   getInTouch()
                 </button>
               </div>
             </div>
 
-            {/* Right: Skills code block */}
-            <div className="space-y-4">
-              <DartCodeBlock code={skillsCode} fileName="skills.dart" />
+            {/* Right: Skills + Status */}
+            <div className="flex flex-col gap-4">
+              <div className="relative flex-1">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-purple/20 to-terminal-cyan/20 blur-xl" />
+                <DartCodeBlock code={skillsCode} fileName="skills.dart" className="relative h-full" />
+              </div>
 
               {/* Status indicator */}
               <div className="flex items-center gap-3 px-4 py-3 bg-card/60 border border-border/50 rounded-xl font-mono text-xs">
@@ -90,6 +103,20 @@ const Index = () => {
                 <span className="text-muted-foreground">
                   <span className="text-terminal-green">status</span>: <span className="text-terminal-green">'Available for work'</span>
                 </span>
+              </div>
+
+              {/* Quick stats */}
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { label: "Projects", value: "10+", color: "terminal-green" },
+                  { label: "Experience", value: "3+ yrs", color: "terminal-cyan" },
+                  { label: "Tech Stack", value: "12+", color: "terminal-purple" },
+                ].map((stat) => (
+                  <div key={stat.label} className="flex flex-col items-center gap-1 px-3 py-3 bg-card/60 border border-border/50 rounded-xl">
+                    <span className={`text-lg font-bold text-${stat.color}`}>{stat.value}</span>
+                    <span className="text-[10px] text-muted-foreground font-mono">{stat.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
