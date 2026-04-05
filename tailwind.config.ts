@@ -27,6 +27,11 @@ export default {
         "terminal-red": "hsl(var(--terminal-red))",
         "terminal-blue": "hsl(var(--terminal-blue))",
         "terminal-purple": "hsl(var(--terminal-purple))",
+        "terminal-cyan": "hsl(var(--terminal-cyan))",
+        "terminal-orange": "hsl(var(--terminal-orange))",
+        "terminal-pink": "hsl(var(--terminal-pink))",
+        "code-bg": "hsl(var(--code-bg))",
+        "code-line-highlight": "hsl(var(--code-line-highlight))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
