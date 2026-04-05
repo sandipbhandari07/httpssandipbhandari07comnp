@@ -68,7 +68,7 @@ interface DartCodeBlockProps {
 export const DartCodeBlock = ({ code, fileName, className = "" }: DartCodeBlockProps) => {
   const highlighted = highlightDart(code);
   return (
-    <div className={`rounded-xl border border-border/40 bg-code-bg backdrop-blur-xl overflow-hidden shadow-lg shadow-black/20 ${className}`}>
+    <div className={`rounded-xl border border-border/40 bg-code-bg backdrop-blur-xl overflow-hidden shadow-lg shadow-black/20 flex flex-col ${className}`}>
       {/* Code header */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/20 bg-background/30">
         <div className="flex gap-1.5">
