@@ -84,7 +84,7 @@ export const DartCodeBlock = ({ code, fileName, className = "" }: DartCodeBlockP
         </div>
       </div>
       {/* Code content */}
-      <div className="p-4 font-mono text-[13px] leading-[1.7] overflow-x-auto">
+      <div className="p-4 font-mono text-[13px] leading-[1.7] overflow-x-auto flex-1">
         {highlighted.map((lineElements, i) => (
           <div key={i} className="flex hover:bg-code-line-highlight/40 rounded-sm -mx-2 px-2 transition-colors">
             <span className="w-7 text-right mr-4 text-muted-foreground/30 select-none text-xs leading-[1.7]">{i + 1}</span>
