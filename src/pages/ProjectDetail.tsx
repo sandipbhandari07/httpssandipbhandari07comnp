@@ -1,11 +1,45 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Code2, Layers, Terminal, Cpu, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, ExternalLink, Layers, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import BlobBackground from "@/components/BlobBackground";
 import { projects } from "@/lib/projects";
+import { DartCodeBlock } from "@/lib/dartHighlighter";
+import { Button } from "@/components/ui/button";
+
+const generateProjectDart = (project: typeof projects[0]) => {
+  const className = project.title.replace(/[^a-zA-Z]/g, "");
+  const techMap: Record<string, string> = {
+    "Mobile App": "Flutter",
+    "Web App": "DartWeb",
+    "Web Game": "GameEngine",
+  };
+  const base = techMap[project.category] || "App";
+
+  return `import 'package:${project.id.replace(/-/g, '_')}/app.dart';
+
+class ${className} extends ${base} {
+  @override
+  final String name = '${project.title}';
+  final String category = '${project.category}';
+
+  List<String> get features => [
+${project.features.map((f) => `    '${f}',`).join("\n")}
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: name,
+      theme: ThemeData.dark(),
+      home: const AppScreen(),
+    );
+  }
+}
+
+void main() => runApp(${className}());`;
+};
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -27,28 +61,11 @@ const ProjectDetail = () => {
     );
   }
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "Mobile App":
-        return <Cpu className="w-4 h-4" />;
-      case "Web App":
-        return <Code2 className="w-4 h-4" />;
-      case "Web Game":
-        return <Terminal className="w-4 h-4" />;
-      default:
-        return <Layers className="w-4 h-4" />;
-    }
-  };
-
   const images = project.images;
+  const dartCode = generateProjectDart(project);
 
-  const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
-  };
+  const nextImage = () => setSelectedImage((prev) => (prev + 1) % images.length);
+  const prevImage = () => setSelectedImage((prev) => (prev - 1 + images.length) % images.length);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
@@ -58,149 +75,111 @@ const ProjectDetail = () => {
 
       <main className="min-h-screen px-6 md:px-16 py-24">
         {/* Back Button */}
-        <Button
-          variant="ghost"
+        <button
           onClick={() => navigate("/work")}
-          className="mb-8 hover:bg-transparent group"
+          className="group flex items-center gap-2 mb-8 font-mono text-sm text-muted-foreground hover:text-terminal-green transition-colors"
         >
-          <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
-          <span className="text-[hsl(var(--terminal-green))]">Back to Projects</span>
-        </Button>
+          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+          <span>cd ../projects</span>
+        </button>
 
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 animate-fade-in">
-            {/* Left Column - Project Info */}
-            <div className="space-y-8">
-              {/* Category Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[hsl(var(--terminal-green)/0.3)] bg-[hsl(var(--terminal-green)/0.05)]">
-                {getCategoryIcon(project.category)}
-                <span className="text-sm text-[hsl(var(--terminal-green))] font-mono">
-                  {project.category}
-                </span>
+          {/* Title Section */}
+          <div className="animate-fade-in mb-8 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-terminal-cyan/30 bg-terminal-cyan/5 mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-terminal-cyan animate-pulse" />
+              <span className="text-xs font-mono text-terminal-cyan tracking-wider uppercase">{project.category}</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-terminal-blue via-terminal-cyan to-terminal-green bg-clip-text text-transparent">
+              {project.title}
+            </h1>
+            <p className="text-lg text-muted-foreground font-mono">
+              <span className="text-terminal-pink">///</span> {project.subtitle}
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 animate-fade-in">
+            {/* Left Column - Dart Code + Features */}
+            <div className="space-y-6">
+              {/* Dart Code Block */}
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-blue/20 to-terminal-cyan/20 blur-xl opacity-60" />
+                <DartCodeBlock
+                  code={dartCode}
+                  fileName={`${project.id.replace(/-/g, '_')}.dart`}
+                  className="relative"
+                />
               </div>
 
-              {/* Title Section */}
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-foreground via-[hsl(var(--terminal-green))] to-foreground bg-clip-text text-transparent">
-                  {project.title}
-                </h1>
-                <p className="text-xl text-muted-foreground font-mono">
-                  // {project.subtitle}
+              {/* Description as terminal */}
+              <div className="rounded-xl border border-border/40 bg-code-bg p-5 font-mono text-sm">
+                <div className="flex items-center gap-2 mb-3 text-muted-foreground/60">
+                  <span className="text-terminal-pink">///</span>
+                  <span className="text-xs uppercase tracking-wider">Description</span>
+                </div>
+                <p className="text-foreground/80 leading-relaxed">
+                  <span className="text-terminal-green">$</span>{" "}
+                  {project.description}
                 </p>
               </div>
 
-              {/* Terminal-style Description */}
-              <div className="relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-[hsl(var(--terminal-green)/0.2)] to-[hsl(var(--terminal-purple)/0.2)] rounded-xl blur-sm" />
-                <div className="relative bg-card/80 backdrop-blur-sm rounded-xl border border-border/50 p-6">
-                  <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border/50">
-                    <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-red))]" />
-                    <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-yellow))]" />
-                    <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-green))]" />
-                    <span className="ml-3 text-xs text-muted-foreground font-mono">description.md</span>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed font-mono text-sm">
-                    <span className="text-[hsl(var(--terminal-green))]">$</span> {project.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Features Grid */}
-              <div>
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <Layers className="w-5 h-5 text-[hsl(var(--terminal-green))]" />
-                  <span className="font-mono">Features</span>
-                </h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {project.features.map((feature, index) => (
-                    <div
-                      key={index}
-                      onMouseEnter={() => setHoveredFeature(index)}
-                      onMouseLeave={() => setHoveredFeature(null)}
-                      className={`
-                        relative p-3 rounded-lg border transition-all duration-300 cursor-default
-                        ${hoveredFeature === index 
-                          ? 'border-[hsl(var(--terminal-green))] bg-[hsl(var(--terminal-green)/0.1)] shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]' 
-                          : 'border-border/50 bg-card/50'
-                        }
-                      `}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className={`
-                          w-1.5 h-1.5 rounded-full transition-colors duration-300
-                          ${hoveredFeature === index ? 'bg-[hsl(var(--terminal-green))]' : 'bg-muted-foreground'}
-                        `} />
-                        <span className="text-sm text-muted-foreground font-mono">{feature}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* GitHub Button */}
-              <Button
+              <button
                 onClick={() => window.open(project.github, "_blank")}
-                className="group relative overflow-hidden bg-transparent border-2 border-[hsl(var(--terminal-green))] text-[hsl(var(--terminal-green))] hover:text-background transition-all duration-300"
+                className="group w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl border-2 border-terminal-green/50 bg-terminal-green/5 hover:bg-terminal-green/15 hover:border-terminal-green text-terminal-green font-mono text-sm transition-all duration-300"
               >
-                <span className="absolute inset-0 bg-[hsl(var(--terminal-green))] translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                <span className="relative flex items-center gap-2">
-                  <ExternalLink className="w-4 h-4" />
-                  View Source Code
-                </span>
-              </Button>
+                <ExternalLink className="w-4 h-4" />
+                <span>openRepository()</span>
+                <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+              </button>
             </div>
 
-            {/* Right Column - Project Images Gallery */}
-            <div className="relative animate-scale-in space-y-4">
-              {/* Main Image */}
+            {/* Right Column - Image Gallery + Features */}
+            <div className="space-y-6">
+              {/* Image Gallery */}
               <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-4 bg-gradient-to-r from-[hsl(var(--terminal-green)/0.2)] via-[hsl(var(--terminal-purple)/0.1)] to-[hsl(var(--terminal-blue)/0.2)] rounded-2xl blur-xl opacity-60" />
-                
-                {/* Image Container */}
-                <div className="relative rounded-xl overflow-hidden border border-border/50 bg-card/50 backdrop-blur-sm">
+                <div className="absolute -inset-2 bg-gradient-to-br from-terminal-purple/15 via-transparent to-terminal-blue/15 rounded-2xl blur-xl" />
+
+                <div className="relative rounded-xl overflow-hidden border border-border/40 bg-code-bg shadow-xl shadow-black/20">
                   {/* Terminal Header */}
-                  <div className="flex items-center justify-between px-4 py-3 bg-card/80 border-b border-border/50">
+                  <div className="flex items-center justify-between px-4 py-2.5 bg-background/30 border-b border-border/20">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-red))]" />
-                      <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-yellow))]" />
-                      <div className="w-3 h-3 rounded-full bg-[hsl(var(--terminal-green))]" />
-                      <span className="ml-3 text-xs text-muted-foreground font-mono">
+                      <div className="flex gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-terminal-red/80" />
+                        <div className="w-3 h-3 rounded-full bg-terminal-yellow/80" />
+                        <div className="w-3 h-3 rounded-full bg-terminal-green/80" />
+                      </div>
+                      <span className="ml-3 text-xs font-mono text-muted-foreground/60">
                         preview_{selectedImage + 1}.png
                       </span>
                     </div>
                     {images.length > 1 && (
-                      <span className="text-xs text-[hsl(var(--terminal-green))] font-mono">
-                        {selectedImage + 1} / {images.length}
+                      <span className="text-xs text-terminal-cyan font-mono">
+                        [{selectedImage + 1}/{images.length}]
                       </span>
                     )}
                   </div>
-                  
+
                   {/* Image */}
                   <div className="relative aspect-video">
                     <img
                       src={images[selectedImage]}
                       alt={`${project.title} - Screenshot ${selectedImage + 1}`}
-                      className="w-full h-full object-cover transition-opacity duration-300"
+                      className="w-full h-full object-cover"
                     />
-                    {/* Scan Line Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[hsl(var(--terminal-green)/0.02)] to-transparent pointer-events-none" />
-                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
-                      backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--terminal-green) / 0.03) 2px, hsl(var(--terminal-green) / 0.03) 4px)'
-                    }} />
 
                     {/* Navigation Arrows */}
                     {images.length > 1 && (
                       <>
                         <button
                           onClick={prevImage}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border border-[hsl(var(--terminal-green)/0.5)] text-[hsl(var(--terminal-green))] hover:bg-[hsl(var(--terminal-green)/0.2)] transition-all duration-200"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-code-bg/90 border border-terminal-blue/40 text-terminal-blue hover:bg-terminal-blue/20 transition-all"
                         >
                           <ChevronLeft className="w-5 h-5" />
                         </button>
                         <button
                           onClick={nextImage}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border border-[hsl(var(--terminal-green)/0.5)] text-[hsl(var(--terminal-green))] hover:bg-[hsl(var(--terminal-green)/0.2)] transition-all duration-200"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-code-bg/90 border border-terminal-blue/40 text-terminal-blue hover:bg-terminal-blue/20 transition-all"
                         >
                           <ChevronRight className="w-5 h-5" />
                         </button>
@@ -209,11 +188,11 @@ const ProjectDetail = () => {
                   </div>
                 </div>
 
-                {/* Decorative Corner Elements */}
-                <div className="absolute -top-2 -left-2 w-6 h-6 border-l-2 border-t-2 border-[hsl(var(--terminal-green))] opacity-60" />
-                <div className="absolute -top-2 -right-2 w-6 h-6 border-r-2 border-t-2 border-[hsl(var(--terminal-green))] opacity-60" />
-                <div className="absolute -bottom-2 -left-2 w-6 h-6 border-l-2 border-b-2 border-[hsl(var(--terminal-green))] opacity-60" />
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-r-2 border-b-2 border-[hsl(var(--terminal-green))] opacity-60" />
+                {/* Corner decorations */}
+                <div className="absolute -top-1.5 -left-1.5 w-5 h-5 border-l-2 border-t-2 border-terminal-cyan/40 rounded-tl-sm" />
+                <div className="absolute -top-1.5 -right-1.5 w-5 h-5 border-r-2 border-t-2 border-terminal-cyan/40 rounded-tr-sm" />
+                <div className="absolute -bottom-1.5 -left-1.5 w-5 h-5 border-l-2 border-b-2 border-terminal-cyan/40 rounded-bl-sm" />
+                <div className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-r-2 border-b-2 border-terminal-cyan/40 rounded-br-sm" />
               </div>
 
               {/* Thumbnail Strip */}
@@ -223,26 +202,54 @@ const ProjectDetail = () => {
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`
-                        relative w-16 h-12 rounded-lg overflow-hidden border-2 transition-all duration-300
-                        ${selectedImage === index 
-                          ? 'border-[hsl(var(--terminal-green))] shadow-[0_0_15px_hsl(var(--terminal-green)/0.4)]' 
-                          : 'border-border/50 opacity-60 hover:opacity-100'
-                        }
-                      `}
+                      className={`relative w-16 h-12 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                        selectedImage === index
+                          ? "border-terminal-cyan shadow-[0_0_12px_hsl(var(--terminal-cyan)/0.4)]"
+                          : "border-border/40 opacity-50 hover:opacity-100"
+                      }`}
                     >
-                      <img
-                        src={img}
-                        alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                      {selectedImage === index && (
-                        <div className="absolute inset-0 bg-[hsl(var(--terminal-green)/0.1)]" />
-                      )}
+                      <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
               )}
+
+              {/* Features as Dart List */}
+              <div className="rounded-xl border border-border/40 bg-code-bg p-5">
+                <div className="flex items-center gap-2 mb-4">
+                  <Layers className="w-4 h-4 text-terminal-purple" />
+                  <span className="text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">Features</span>
+                </div>
+                <div className="font-mono text-[13px] space-y-1">
+                  <div className="text-terminal-pink">final</div>
+                  <div className="pl-2">
+                    <span className="text-terminal-cyan">List</span>
+                    <span className="text-foreground/60">{"<"}</span>
+                    <span className="text-terminal-cyan">String</span>
+                    <span className="text-foreground/60">{">"}</span>
+                    <span className="text-foreground/80"> features </span>
+                    <span className="text-terminal-pink">= </span>
+                    <span className="text-foreground/60">[</span>
+                  </div>
+                  {project.features.map((feature, index) => (
+                    <div
+                      key={index}
+                      onMouseEnter={() => setHoveredFeature(index)}
+                      onMouseLeave={() => setHoveredFeature(null)}
+                      className={`pl-6 py-0.5 rounded-sm transition-all cursor-default ${
+                        hoveredFeature === index ? "bg-terminal-green/10" : ""
+                      }`}
+                    >
+                      <span className="text-terminal-green">'{feature}'</span>
+                      <span className="text-foreground/40">,</span>
+                      {hoveredFeature === index && (
+                        <span className="ml-3 text-muted-foreground/40 text-xs">// ✓ implemented</span>
+                      )}
+                    </div>
+                  ))}
+                  <div className="pl-2 text-foreground/60">];</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
