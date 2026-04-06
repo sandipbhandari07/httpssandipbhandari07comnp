@@ -53,7 +53,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto w-full animate-fade-in">
           {/* Welcome badge */}
           <div className="flex items-center gap-2 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 bg-card/60 border border-border/50 rounded-full font-mono text-xs">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-card/60 border border-border/50 rounded-full font-mono text-sm">
               <Terminal className="w-3.5 h-3.5 text-terminal-green" />
               <span className="text-muted-foreground">~/sandip-bhandari</span>
               <span className="text-terminal-green">$</span>
