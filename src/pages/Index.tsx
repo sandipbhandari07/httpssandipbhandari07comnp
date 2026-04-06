@@ -95,7 +95,7 @@ const Index = () => {
               </div>
 
               {/* Status indicator */}
-              <div className="flex items-center gap-3 px-4 py-3 bg-card/60 border border-border/50 rounded-xl font-mono text-xs">
+              <div className="flex items-center gap-3 px-5 py-3.5 bg-card/60 border border-border/50 rounded-xl font-mono text-sm">
                 <div className="relative">
                   <div className="w-3 h-3 rounded-full bg-terminal-green" />
                   <div className="absolute inset-0 w-3 h-3 rounded-full bg-terminal-green animate-ping opacity-75" />
