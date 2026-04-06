@@ -53,7 +53,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto w-full animate-fade-in">
           {/* Welcome badge */}
           <div className="flex items-center gap-2 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 bg-card/60 border border-border/50 rounded-full font-mono text-xs">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-card/60 border border-border/50 rounded-full font-mono text-sm">
               <Terminal className="w-3.5 h-3.5 text-terminal-green" />
               <span className="text-muted-foreground">~/sandip-bhandari</span>
               <span className="text-terminal-green">$</span>
@@ -70,17 +70,17 @@ const Index = () => {
               </div>
 
               {/* CTA buttons */}
-              <div className="flex gap-3 font-mono">
+              <div className="flex gap-4 font-mono">
                 <button
                   onClick={() => navigate("/work")}
-                  className="group flex items-center gap-2 px-5 py-3 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-sm text-terminal-green hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
+                  className="group flex items-center gap-2 px-6 py-3.5 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-base text-terminal-green hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
                 >
                   viewProjects()
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="px-5 py-3 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-sm text-terminal-purple hover:shadow-[0_0_20px_hsl(var(--terminal-purple)/0.2)]"
+                  className="px-6 py-3.5 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-base text-terminal-purple hover:shadow-[0_0_20px_hsl(var(--terminal-purple)/0.2)]"
                 >
                   getInTouch()
                 </button>
@@ -95,7 +95,7 @@ const Index = () => {
               </div>
 
               {/* Status indicator */}
-              <div className="flex items-center gap-3 px-4 py-3 bg-card/60 border border-border/50 rounded-xl font-mono text-xs">
+              <div className="flex items-center gap-3 px-5 py-3.5 bg-card/60 border border-border/50 rounded-xl font-mono text-sm">
                 <div className="relative">
                   <div className="w-3 h-3 rounded-full bg-terminal-green" />
                   <div className="absolute inset-0 w-3 h-3 rounded-full bg-terminal-green animate-ping opacity-75" />
@@ -112,9 +112,9 @@ const Index = () => {
                   { label: "Experience", value: "3+ yrs", color: "terminal-cyan" },
                   { label: "Tech Stack", value: "12+", color: "terminal-purple" },
                 ].map((stat) => (
-                  <div key={stat.label} className="flex flex-col items-center gap-1 px-3 py-3 bg-card/60 border border-border/50 rounded-xl">
-                    <span className={`text-lg font-bold text-${stat.color}`}>{stat.value}</span>
-                    <span className="text-[10px] text-muted-foreground font-mono">{stat.label}</span>
+                  <div key={stat.label} className="flex flex-col items-center gap-1.5 px-4 py-4 bg-card/60 border border-border/50 rounded-xl">
+                    <span className={`text-xl font-bold text-${stat.color}`}>{stat.value}</span>
+                    <span className="text-xs text-muted-foreground font-mono">{stat.label}</span>
                   </div>
                 ))}
               </div>

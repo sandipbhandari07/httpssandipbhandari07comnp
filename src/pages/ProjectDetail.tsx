@@ -90,10 +90,10 @@ const ProjectDetail = () => {
               <Sparkles className="w-3.5 h-3.5 text-terminal-cyan animate-pulse" />
               <span className="text-xs font-mono text-terminal-cyan tracking-wider uppercase">{project.category}</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-terminal-blue via-terminal-cyan to-terminal-green bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-terminal-blue via-terminal-cyan to-terminal-green bg-clip-text text-transparent">
               {project.title}
             </h1>
-            <p className="text-lg text-muted-foreground font-mono">
+            <p className="text-xl text-muted-foreground font-mono">
               <span className="text-terminal-pink">///</span> {project.subtitle}
             </p>
           </div>
@@ -112,10 +112,10 @@ const ProjectDetail = () => {
               </div>
 
               {/* Description as terminal */}
-              <div className="rounded-xl border border-border/40 bg-code-bg p-5 font-mono text-sm">
+              <div className="rounded-xl border border-border/40 bg-code-bg p-6 font-mono text-base">
                 <div className="flex items-center gap-2 mb-3 text-muted-foreground/60">
                   <span className="text-terminal-pink">///</span>
-                  <span className="text-xs uppercase tracking-wider">Description</span>
+                  <span className="text-sm uppercase tracking-wider">Description</span>
                 </div>
                 <p className="text-foreground/80 leading-relaxed">
                   <span className="text-terminal-green">$</span>{" "}
@@ -126,11 +126,11 @@ const ProjectDetail = () => {
               {/* GitHub Button */}
               <button
                 onClick={() => window.open(project.github, "_blank")}
-                className="group w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl border-2 border-terminal-green/50 bg-terminal-green/5 hover:bg-terminal-green/15 hover:border-terminal-green text-terminal-green font-mono text-sm transition-all duration-300"
+                className="group w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl border-2 border-terminal-green/50 bg-terminal-green/5 hover:bg-terminal-green/15 hover:border-terminal-green text-terminal-green font-mono text-base transition-all duration-300"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-5 h-5" />
                 <span>openRepository()</span>
-                <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                <ArrowLeft className="w-5 h-5 rotate-180 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </button>
             </div>
 
@@ -215,12 +215,12 @@ const ProjectDetail = () => {
               )}
 
               {/* Features as Dart List */}
-              <div className="rounded-xl border border-border/40 bg-code-bg p-5">
+              <div className="rounded-xl border border-border/40 bg-code-bg p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <Layers className="w-4 h-4 text-terminal-purple" />
-                  <span className="text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">Features</span>
+                  <Layers className="w-5 h-5 text-terminal-purple" />
+                  <span className="text-sm font-mono text-muted-foreground/60 uppercase tracking-wider">Features</span>
                 </div>
-                <div className="font-mono text-[13px] space-y-1">
+                <div className="font-mono text-sm space-y-1.5">
                   <div className="text-terminal-pink">final</div>
                   <div className="pl-2">
                     <span className="text-terminal-cyan">List</span>
@@ -236,7 +236,7 @@ const ProjectDetail = () => {
                       key={index}
                       onMouseEnter={() => setHoveredFeature(index)}
                       onMouseLeave={() => setHoveredFeature(null)}
-                      className={`pl-6 py-0.5 rounded-sm transition-all cursor-default ${
+                      className={`pl-6 py-1 rounded-sm transition-all cursor-default ${
                         hoveredFeature === index ? "bg-terminal-green/10" : ""
                       }`}
                     >

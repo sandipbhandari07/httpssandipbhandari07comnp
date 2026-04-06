@@ -57,11 +57,11 @@ const About = () => {
         <div className="max-w-[1400px] mx-auto w-full animate-fade-in">
           {/* Top: Profile Card */}
           <div className="relative mb-6">
-            <div className="flex items-center gap-6 p-5 bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl">
+            <div className="flex items-center gap-6 p-6 bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl">
               {/* Avatar */}
               <div className="relative flex-shrink-0">
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-terminal-green to-terminal-purple opacity-60 blur-sm animate-pulse" />
-                <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-terminal-green">
+                <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-2 border-terminal-green">
                   <img src={profileImage} alt="Sandip Bhandari" className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-terminal-green rounded-full flex items-center justify-center border-2 border-background">
@@ -71,14 +71,14 @@ const About = () => {
 
               {/* Info */}
               <div className="flex-1">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-terminal-green to-terminal-purple bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-terminal-green to-terminal-purple bg-clip-text text-transparent">
                   Sandip Bhandari
                 </h1>
-                <p className="text-sm font-mono text-terminal-cyan mt-0.5">Android & API Developer</p>
-                <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-muted-foreground font-mono">
-                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-terminal-orange" /> Nepal</span>
-                  <span className="flex items-center gap-1"><Mail className="w-3 h-3 text-terminal-pink" /> bhandarisandip882@gmail.com</span>
-                  <span className="flex items-center gap-1"><Code2 className="w-3 h-3 text-terminal-green" /> Available for work</span>
+                <p className="text-base font-mono text-terminal-cyan mt-1">Android & API Developer</p>
+                <div className="flex flex-wrap items-center gap-5 mt-2.5 text-sm text-muted-foreground font-mono">
+                  <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-terminal-orange" /> Nepal</span>
+                  <span className="flex items-center gap-1.5"><Mail className="w-4 h-4 text-terminal-pink" /> bhandarisandip882@gmail.com</span>
+                  <span className="flex items-center gap-1.5"><Code2 className="w-4 h-4 text-terminal-green" /> Available for work</span>
                 </div>
               </div>
 
@@ -97,7 +97,7 @@ const About = () => {
           </div>
 
           {/* Bottom: Code blocks + Spotify */}
-          <div className="grid lg:grid-cols-[1fr_1fr_320px] gap-5 items-stretch">
+          <div className="grid lg:grid-cols-[1fr_1fr_340px] gap-6 items-stretch">
             {/* Code block 1 */}
             <div className="relative">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green/15 to-terminal-blue/15 blur-xl" />

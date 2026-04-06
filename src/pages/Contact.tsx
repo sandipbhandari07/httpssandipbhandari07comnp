@@ -60,7 +60,7 @@ const Contact = () => {
         <div className="max-w-6xl mx-auto w-full animate-fade-in">
           {/* Terminal badge */}
           <div className="flex items-center gap-2 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 bg-card/60 border border-border/50 rounded-full font-mono text-xs">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-card/60 border border-border/50 rounded-full font-mono text-sm">
               <Terminal className="w-3.5 h-3.5 text-terminal-green" />
               <span className="text-muted-foreground">~/sandip-bhandari</span>
               <span className="text-terminal-green">$</span>
@@ -68,7 +68,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
             {/* Left column: Code blocks stacked */}
             <div className="flex flex-col gap-4">
               <div className="relative flex-1">
@@ -86,11 +86,11 @@ const Contact = () => {
               {/* Send message CTA */}
               <a
                 href="mailto:bhandarisandip882@gmail.com"
-                className="group flex items-center gap-3 px-5 py-4 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
+                className="group flex items-center gap-3 px-6 py-4.5 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
               >
                 <Send className="w-5 h-5 text-terminal-green group-hover:translate-x-1 transition-transform" />
-                <span className="text-terminal-green font-mono text-sm">sendMessage()</span>
-                <ArrowUpRight className="w-4 h-4 text-terminal-green opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
+                <span className="text-terminal-green font-mono text-base">sendMessage()</span>
+                <ArrowUpRight className="w-5 h-5 text-terminal-green opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
               </a>
 
               {/* Contact cards */}
@@ -105,16 +105,16 @@ const Contact = () => {
                   onMouseLeave={() => setHoveredLink(null)}
                 >
                   <div className={`absolute -inset-[1px] rounded-xl bg-gradient-to-r from-${contact.color} to-terminal-green opacity-0 blur-sm transition-opacity duration-500 ${hoveredLink === contact.id ? 'opacity-50' : ''}`} />
-                  <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl p-4 hover:border-terminal-green/50 transition-all">
+                  <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl p-5 hover:border-terminal-green/50 transition-all">
                     <div className="flex items-center gap-4">
-                      <div className={`w-10 h-10 rounded-xl bg-${contact.color}/10 border border-${contact.color}/30 flex items-center justify-center`}>
-                        <contact.icon className={`w-4 h-4 text-${contact.color}`} />
+                      <div className={`w-12 h-12 rounded-xl bg-${contact.color}/10 border border-${contact.color}/30 flex items-center justify-center`}>
+                        <contact.icon className={`w-5 h-5 text-${contact.color}`} />
                       </div>
                       <div className="flex-1 font-mono">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{contact.label}</p>
-                        <p className="text-sm group-hover:text-terminal-green transition-colors">{contact.value}</p>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{contact.label}</p>
+                        <p className="text-base group-hover:text-terminal-green transition-colors">{contact.value}</p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-terminal-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                      <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-terminal-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                     </div>
                   </div>
                 </a>
@@ -133,11 +133,11 @@ const Contact = () => {
                     onMouseLeave={() => setHoveredLink(null)}
                   >
                     <div className={`absolute -inset-[1px] rounded-xl bg-gradient-to-r from-${link.color} to-terminal-green opacity-0 blur-sm transition-opacity ${hoveredLink === link.id ? 'opacity-60' : ''}`} />
-                    <div className="relative flex items-center gap-3 px-4 py-3 bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl hover:border-terminal-green/50 transition-all">
+                    <div className="relative flex items-center gap-3 px-5 py-4 bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl hover:border-terminal-green/50 transition-all">
                       <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-terminal-green transition-colors" />
                       <div className="font-mono">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{link.label}</p>
-                        <p className="text-xs group-hover:text-terminal-green transition-colors">{link.username}</p>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{link.label}</p>
+                        <p className="text-sm group-hover:text-terminal-green transition-colors">{link.username}</p>
                       </div>
                     </div>
                   </a>
@@ -145,7 +145,7 @@ const Contact = () => {
               </div>
 
               {/* Status indicator - matches home page style */}
-              <div className="flex items-center gap-3 px-4 py-3 bg-card/60 border border-border/50 rounded-xl font-mono text-xs">
+              <div className="flex items-center gap-3 px-5 py-3.5 bg-card/60 border border-border/50 rounded-xl font-mono text-sm">
                 <div className="relative">
                   <div className="w-3 h-3 rounded-full bg-terminal-green" />
                   <div className="absolute inset-0 w-3 h-3 rounded-full bg-terminal-green animate-ping opacity-75" />
