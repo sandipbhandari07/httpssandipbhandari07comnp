@@ -86,11 +86,11 @@ const Contact = () => {
               {/* Send message CTA */}
               <a
                 href="mailto:bhandarisandip882@gmail.com"
-                className="group flex items-center gap-3 px-5 py-4 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
+                className="group flex items-center gap-3 px-6 py-4.5 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
               >
                 <Send className="w-5 h-5 text-terminal-green group-hover:translate-x-1 transition-transform" />
-                <span className="text-terminal-green font-mono text-sm">sendMessage()</span>
-                <ArrowUpRight className="w-4 h-4 text-terminal-green opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
+                <span className="text-terminal-green font-mono text-base">sendMessage()</span>
+                <ArrowUpRight className="w-5 h-5 text-terminal-green opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
               </a>
 
               {/* Contact cards */}
