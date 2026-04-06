@@ -215,12 +215,12 @@ const ProjectDetail = () => {
               )}
 
               {/* Features as Dart List */}
-              <div className="rounded-xl border border-border/40 bg-code-bg p-5">
+              <div className="rounded-xl border border-border/40 bg-code-bg p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <Layers className="w-4 h-4 text-terminal-purple" />
-                  <span className="text-xs font-mono text-muted-foreground/60 uppercase tracking-wider">Features</span>
+                  <Layers className="w-5 h-5 text-terminal-purple" />
+                  <span className="text-sm font-mono text-muted-foreground/60 uppercase tracking-wider">Features</span>
                 </div>
-                <div className="font-mono text-[13px] space-y-1">
+                <div className="font-mono text-sm space-y-1.5">
                   <div className="text-terminal-pink">final</div>
                   <div className="pl-2">
                     <span className="text-terminal-cyan">List</span>
@@ -236,7 +236,7 @@ const ProjectDetail = () => {
                       key={index}
                       onMouseEnter={() => setHoveredFeature(index)}
                       onMouseLeave={() => setHoveredFeature(null)}
-                      className={`pl-6 py-0.5 rounded-sm transition-all cursor-default ${
+                      className={`pl-6 py-1 rounded-sm transition-all cursor-default ${
                         hoveredFeature === index ? "bg-terminal-green/10" : ""
                       }`}
                     >
