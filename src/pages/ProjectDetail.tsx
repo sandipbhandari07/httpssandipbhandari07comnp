@@ -112,10 +112,10 @@ const ProjectDetail = () => {
               </div>
 
               {/* Description as terminal */}
-              <div className="rounded-xl border border-border/40 bg-code-bg p-5 font-mono text-sm">
+              <div className="rounded-xl border border-border/40 bg-code-bg p-6 font-mono text-base">
                 <div className="flex items-center gap-2 mb-3 text-muted-foreground/60">
                   <span className="text-terminal-pink">///</span>
-                  <span className="text-xs uppercase tracking-wider">Description</span>
+                  <span className="text-sm uppercase tracking-wider">Description</span>
                 </div>
                 <p className="text-foreground/80 leading-relaxed">
                   <span className="text-terminal-green">$</span>{" "}
