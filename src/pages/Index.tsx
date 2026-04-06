@@ -112,9 +112,9 @@ const Index = () => {
                   { label: "Experience", value: "3+ yrs", color: "terminal-cyan" },
                   { label: "Tech Stack", value: "12+", color: "terminal-purple" },
                 ].map((stat) => (
-                  <div key={stat.label} className="flex flex-col items-center gap-1 px-3 py-3 bg-card/60 border border-border/50 rounded-xl">
-                    <span className={`text-lg font-bold text-${stat.color}`}>{stat.value}</span>
-                    <span className="text-[10px] text-muted-foreground font-mono">{stat.label}</span>
+                  <div key={stat.label} className="flex flex-col items-center gap-1.5 px-4 py-4 bg-card/60 border border-border/50 rounded-xl">
+                    <span className={`text-xl font-bold text-${stat.color}`}>{stat.value}</span>
+                    <span className="text-xs text-muted-foreground font-mono">{stat.label}</span>
                   </div>
                 ))}
               </div>

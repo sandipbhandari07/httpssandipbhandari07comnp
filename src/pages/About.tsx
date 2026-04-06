@@ -97,7 +97,7 @@ const About = () => {
           </div>
 
           {/* Bottom: Code blocks + Spotify */}
-          <div className="grid lg:grid-cols-[1fr_1fr_320px] gap-5 items-stretch">
+          <div className="grid lg:grid-cols-[1fr_1fr_340px] gap-6 items-stretch">
             {/* Code block 1 */}
             <div className="relative">
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green/15 to-terminal-blue/15 blur-xl" />

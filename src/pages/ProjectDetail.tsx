@@ -126,11 +126,11 @@ const ProjectDetail = () => {
               {/* GitHub Button */}
               <button
                 onClick={() => window.open(project.github, "_blank")}
-                className="group w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl border-2 border-terminal-green/50 bg-terminal-green/5 hover:bg-terminal-green/15 hover:border-terminal-green text-terminal-green font-mono text-sm transition-all duration-300"
+                className="group w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl border-2 border-terminal-green/50 bg-terminal-green/5 hover:bg-terminal-green/15 hover:border-terminal-green text-terminal-green font-mono text-base transition-all duration-300"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-5 h-5" />
                 <span>openRepository()</span>
-                <ArrowLeft className="w-4 h-4 rotate-180 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                <ArrowLeft className="w-5 h-5 rotate-180 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </button>
             </div>
 
