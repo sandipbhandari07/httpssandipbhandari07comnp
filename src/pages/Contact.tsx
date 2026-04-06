@@ -105,7 +105,7 @@ const Contact = () => {
                   onMouseLeave={() => setHoveredLink(null)}
                 >
                   <div className={`absolute -inset-[1px] rounded-xl bg-gradient-to-r from-${contact.color} to-terminal-green opacity-0 blur-sm transition-opacity duration-500 ${hoveredLink === contact.id ? 'opacity-50' : ''}`} />
-                  <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl p-4 hover:border-terminal-green/50 transition-all">
+                  <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl p-5 hover:border-terminal-green/50 transition-all">
                     <div className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-xl bg-${contact.color}/10 border border-${contact.color}/30 flex items-center justify-center`}>
                         <contact.icon className={`w-4 h-4 text-${contact.color}`} />
