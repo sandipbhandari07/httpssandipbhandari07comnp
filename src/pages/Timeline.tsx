@@ -182,43 +182,56 @@ const Timeline = () => {
                 </div>
 
                 {/* Right: Meta Info */}
-                <div className="md:w-72 p-5 flex flex-col gap-4">
+                <div className="md:w-80 p-6 flex flex-col gap-5">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border backdrop-blur-xl ${
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center border backdrop-blur-xl ${
                       isWork
                         ? "bg-terminal-blue/20 border-terminal-blue/50 text-terminal-blue shadow-[0_0_12px_hsl(var(--terminal-blue)/0.3)]"
                         : "bg-terminal-purple/20 border-terminal-purple/50 text-terminal-purple shadow-[0_0_12px_hsl(var(--terminal-purple)/0.3)]"
                     }`}>
-                      {isWork ? <Briefcase className="w-4 h-4" /> : <GraduationCap className="w-4 h-4" />}
+                      {isWork ? <Briefcase className="w-5 h-5" /> : <GraduationCap className="w-5 h-5" />}
                     </div>
                     <div>
                       <span className={`text-[10px] font-mono uppercase tracking-[0.2em] ${
                         isWork ? "text-terminal-blue" : "text-terminal-purple"
                       }`}>{item.type}</span>
-                      <h3 className="text-lg font-bold leading-tight">{item.title}</h3>
+                      <h3 className="text-xl font-bold leading-tight">{item.title}</h3>
                     </div>
                   </div>
 
-                  <div className="space-y-1.5 text-sm text-muted-foreground">
-                    <p className="font-mono text-xs">
+                  <div className="space-y-2 text-sm text-muted-foreground">
+                    <p className="font-mono text-sm">
                       <span className="text-terminal-blue">company</span>: <span className="text-terminal-green">'{item.company}'</span>
                     </p>
-                    <p className="font-mono text-xs">
+                    <p className="font-mono text-sm">
                       <span className="text-terminal-blue">period</span>: <span className="text-terminal-green">'{item.period}'</span>
                     </p>
                     {item.gpa && (
-                      <p className="font-mono text-xs">
+                      <p className="font-mono text-sm">
                         <span className="text-terminal-blue">gpa</span>: <span className="text-terminal-yellow">{item.gpa}</span>
                       </p>
                     )}
                   </div>
 
+                  {/* Description */}
+                  <div>
+                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mb-2">// highlights</p>
+                    <ul className="space-y-1.5">
+                      {item.description.map((desc) => (
+                        <li key={desc} className="flex items-start gap-2 font-mono text-sm text-muted-foreground">
+                          <span className="text-terminal-green mt-0.5">›</span>
+                          <span>{desc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
                   {/* Skills as Dart list */}
                   <div className="mt-auto">
                     <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mb-2">// tech_stack</p>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-2">
                       {item.skills.map((skill) => (
-                        <span key={skill} className={`text-[11px] px-2.5 py-1.5 rounded-lg font-mono border transition-colors ${
+                        <span key={skill} className={`text-xs px-3 py-1.5 rounded-lg font-mono border transition-colors ${
                           isWork
                             ? "bg-terminal-blue/5 border-terminal-blue/20 text-terminal-blue"
                             : "bg-terminal-purple/5 border-terminal-purple/20 text-terminal-purple"
