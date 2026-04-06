@@ -70,17 +70,17 @@ const Index = () => {
               </div>
 
               {/* CTA buttons */}
-              <div className="flex gap-3 font-mono">
+              <div className="flex gap-4 font-mono">
                 <button
                   onClick={() => navigate("/work")}
-                  className="group flex items-center gap-2 px-5 py-3 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-sm text-terminal-green hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
+                  className="group flex items-center gap-2 px-6 py-3.5 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all text-base text-terminal-green hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
                 >
                   viewProjects()
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button
                   onClick={() => navigate("/contact")}
-                  className="px-5 py-3 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-sm text-terminal-purple hover:shadow-[0_0_20px_hsl(var(--terminal-purple)/0.2)]"
+                  className="px-6 py-3.5 bg-terminal-purple/10 border border-terminal-purple/50 rounded-xl hover:bg-terminal-purple/20 hover:border-terminal-purple transition-all text-base text-terminal-purple hover:shadow-[0_0_20px_hsl(var(--terminal-purple)/0.2)]"
                 >
                   getInTouch()
                 </button>
