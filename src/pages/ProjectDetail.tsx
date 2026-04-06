@@ -90,10 +90,10 @@ const ProjectDetail = () => {
               <Sparkles className="w-3.5 h-3.5 text-terminal-cyan animate-pulse" />
               <span className="text-xs font-mono text-terminal-cyan tracking-wider uppercase">{project.category}</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-terminal-blue via-terminal-cyan to-terminal-green bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-terminal-blue via-terminal-cyan to-terminal-green bg-clip-text text-transparent">
               {project.title}
             </h1>
-            <p className="text-lg text-muted-foreground font-mono">
+            <p className="text-xl text-muted-foreground font-mono">
               <span className="text-terminal-pink">///</span> {project.subtitle}
             </p>
           </div>
