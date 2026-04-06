@@ -133,11 +133,11 @@ const Contact = () => {
                     onMouseLeave={() => setHoveredLink(null)}
                   >
                     <div className={`absolute -inset-[1px] rounded-xl bg-gradient-to-r from-${link.color} to-terminal-green opacity-0 blur-sm transition-opacity ${hoveredLink === link.id ? 'opacity-60' : ''}`} />
-                    <div className="relative flex items-center gap-3 px-4 py-3 bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl hover:border-terminal-green/50 transition-all">
+                    <div className="relative flex items-center gap-3 px-5 py-4 bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl hover:border-terminal-green/50 transition-all">
                       <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-terminal-green transition-colors" />
                       <div className="font-mono">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">{link.label}</p>
-                        <p className="text-xs group-hover:text-terminal-green transition-colors">{link.username}</p>
+                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{link.label}</p>
+                        <p className="text-sm group-hover:text-terminal-green transition-colors">{link.username}</p>
                       </div>
                     </div>
                   </a>
