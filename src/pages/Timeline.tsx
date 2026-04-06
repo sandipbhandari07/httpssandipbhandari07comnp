@@ -171,10 +171,10 @@ const Timeline = () => {
                   </div>
 
                   {/* Code content */}
-                  <div className="p-4 md:p-5 font-mono text-[13px] leading-relaxed overflow-x-auto">
+                  <div className="p-5 md:p-6 font-mono text-sm md:text-base leading-relaxed overflow-x-auto">
                     {highlightedCode.map((lineElements, i) => (
-                      <div key={i} className="flex">
-                        <span className="w-6 text-right mr-4 text-muted-foreground/40 select-none text-xs">{i + 1}</span>
+                      <div key={i} className="flex hover:bg-code-line-highlight/40 rounded px-1 -mx-1 transition-colors">
+                        <span className="w-7 text-right mr-5 text-muted-foreground/40 select-none text-xs leading-relaxed">{i + 1}</span>
                         <span>{lineElements}</span>
                       </div>
                     ))}
