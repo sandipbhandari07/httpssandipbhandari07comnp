@@ -68,7 +68,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
             {/* Left column: Code blocks stacked */}
             <div className="flex flex-col gap-4">
               <div className="relative flex-1">
