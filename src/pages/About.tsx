@@ -71,14 +71,14 @@ const About = () => {
 
               {/* Info */}
               <div className="flex-1">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-terminal-green to-terminal-purple bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-terminal-green to-terminal-purple bg-clip-text text-transparent">
                   Sandip Bhandari
                 </h1>
-                <p className="text-sm font-mono text-terminal-cyan mt-0.5">Android & API Developer</p>
-                <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-muted-foreground font-mono">
-                  <span className="flex items-center gap-1"><MapPin className="w-3 h-3 text-terminal-orange" /> Nepal</span>
-                  <span className="flex items-center gap-1"><Mail className="w-3 h-3 text-terminal-pink" /> bhandarisandip882@gmail.com</span>
-                  <span className="flex items-center gap-1"><Code2 className="w-3 h-3 text-terminal-green" /> Available for work</span>
+                <p className="text-base font-mono text-terminal-cyan mt-1">Android & API Developer</p>
+                <div className="flex flex-wrap items-center gap-5 mt-2.5 text-sm text-muted-foreground font-mono">
+                  <span className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-terminal-orange" /> Nepal</span>
+                  <span className="flex items-center gap-1.5"><Mail className="w-4 h-4 text-terminal-pink" /> bhandarisandip882@gmail.com</span>
+                  <span className="flex items-center gap-1.5"><Code2 className="w-4 h-4 text-terminal-green" /> Available for work</span>
                 </div>
               </div>
 
