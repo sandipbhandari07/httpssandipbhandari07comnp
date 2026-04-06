@@ -57,7 +57,7 @@ const About = () => {
         <div className="max-w-[1400px] mx-auto w-full animate-fade-in">
           {/* Top: Profile Card */}
           <div className="relative mb-6">
-            <div className="flex items-center gap-6 p-5 bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl">
+            <div className="flex items-center gap-6 p-6 bg-card/60 backdrop-blur-xl border border-border/50 rounded-2xl">
               {/* Avatar */}
               <div className="relative flex-shrink-0">
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-terminal-green to-terminal-purple opacity-60 blur-sm animate-pulse" />
