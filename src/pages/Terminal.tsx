@@ -378,7 +378,7 @@ const Terminal = () => {
           <div
             ref={terminalRef}
             onClick={handleTerminalClick}
-            className="p-5 md:p-6 font-mono text-sm md:text-base leading-relaxed min-h-[60vh] max-h-[70vh] overflow-y-auto cursor-text"
+            className="p-5 md:p-6 font-mono text-sm md:text-base leading-relaxed min-h-[60vh] max-h-[70vh] overflow-y-auto cursor-text terminal-scroll"
           >
             {lines.map((line, i) => (
               <div key={i} className="mb-1">
