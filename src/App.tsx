@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Work from "./pages/Work";
 import Timeline from "./pages/Timeline";
 import Contact from "./pages/Contact";
+import Terminal from "./pages/Terminal";
 import ProjectDetail from "./pages/ProjectDetail";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/work" element={<Work />} />
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/terminal" element={<Terminal />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

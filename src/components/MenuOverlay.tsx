@@ -13,6 +13,7 @@ const menuItems = [
   { number: "03", label: "ABOUT", path: "/about" },
   { number: "04", label: "TIMELINE", path: "/timeline" },
   { number: "05", label: "CONTACT", path: "/contact" },
+  { number: "06", label: "TERMINAL", path: "/terminal" },
 ];
 
 const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
