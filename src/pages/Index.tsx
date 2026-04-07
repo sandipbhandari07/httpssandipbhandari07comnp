@@ -61,10 +61,10 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 items-stretch">
+          <div className="grid md:grid-cols-2 gap-6">
             {/* Left: Main Dart code block */}
             <div className="flex flex-col gap-4">
-              <div className="relative flex-1">
+              <div className="relative flex-1 min-h-0">
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green/20 to-terminal-purple/20 blur-xl" />
                 <DartCodeBlock code={heroCode} fileName="main.dart" className="relative h-full" />
               </div>
@@ -89,7 +89,7 @@ const Index = () => {
 
             {/* Right: Skills + Status */}
             <div className="flex flex-col gap-4">
-              <div className="relative flex-1">
+              <div className="relative flex-1 min-h-0">
                 <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-purple/20 to-terminal-cyan/20 blur-xl" />
                 <DartCodeBlock code={skillsCode} fileName="skills.dart" className="relative h-full" />
               </div>
