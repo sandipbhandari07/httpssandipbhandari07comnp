@@ -12,6 +12,7 @@ import Timeline from "./pages/Timeline";
 import Contact from "./pages/Contact";
 import Terminal from "./pages/Terminal";
 import ProjectDetail from "./pages/ProjectDetail";
+import Gaming from "./pages/Gaming";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
