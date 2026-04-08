@@ -132,6 +132,19 @@ const Gaming = () => {
           {/* ─── VALORANT TAB ─── */}
           {activeTab === "valorant" && (
             <div className="space-y-6 animate-fade-in">
+              {/* Profile Card */}
+              <div className="flex items-center gap-4 bg-card/60 border border-border/50 rounded-xl p-5">
+                <img
+                  src="https://titles.trackercdn.com/valorant-api/playercards/6bfb3fca-49dc-e129-d85e-10a162dd4d3f/displayicon.png"
+                  alt="Valorant Avatar"
+                  className="w-16 h-16 rounded-xl border-2 border-red-500/40 object-cover"
+                />
+                <div>
+                  <p className="text-xl font-bold">{valorantProfile.username}</p>
+                  <p className="text-sm text-muted-foreground font-mono">Competitive Player • {valorantProfile.stats.playtime} Playtime</p>
+                </div>
+              </div>
+
               {/* Profile Overview */}
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="bg-card/60 border border-border/50 rounded-xl p-5">
