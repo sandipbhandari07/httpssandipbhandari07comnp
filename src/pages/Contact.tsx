@@ -26,15 +26,6 @@ class ContactInfo {
   }
 }`;
 
-const statusCode = `// availability.dart
-class Availability extends ChangeNotifier {
-  final bool isAvailable = true;
-  final String responseTime = '< 24 hours';
-  
-  String get currentStatus =>
-    '🟢 Open for opportunities';
-}`;
-
 const Contact = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
@@ -68,25 +59,19 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* Left column: Code blocks stacked */}
-            <div className="flex flex-col gap-4">
-              <div className="relative flex-1 min-h-0">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green/20 to-terminal-cyan/20 blur-xl" />
-                <DartCodeBlock code={contactCode} fileName="contact.dart" className="relative h-full" />
-              </div>
-              <div className="relative">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-purple/20 to-terminal-green/20 blur-xl" />
-                <DartCodeBlock code={statusCode} fileName="availability.dart" className="relative h-full" />
-              </div>
+          <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+            {/* Left column: Code block */}
+            <div className="relative h-full">
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-terminal-green/20 to-terminal-cyan/20 blur-xl" />
+              <DartCodeBlock code={contactCode} fileName="contact.dart" className="relative h-full" />
             </div>
 
             {/* Right column: Contact info + socials */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 h-full">
               {/* Send message CTA */}
               <a
                 href="mailto:bhandarisandip882@gmail.com"
-                className="group flex items-center gap-3 px-6 py-4.5 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
+                className="group flex items-center gap-3 px-5 py-4 bg-terminal-green/10 border border-terminal-green/50 rounded-xl hover:bg-terminal-green/20 hover:border-terminal-green transition-all hover:shadow-[0_0_20px_hsl(var(--terminal-green)/0.2)]"
               >
                 <Send className="w-5 h-5 text-terminal-green group-hover:translate-x-1 transition-transform" />
                 <span className="text-terminal-green font-mono text-base">sendMessage()</span>
@@ -105,16 +90,16 @@ const Contact = () => {
                   onMouseLeave={() => setHoveredLink(null)}
                 >
                   <div className={`absolute -inset-[1px] rounded-xl bg-gradient-to-r from-${contact.color} to-terminal-green opacity-0 blur-sm transition-opacity duration-500 ${hoveredLink === contact.id ? 'opacity-50' : ''}`} />
-                  <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl p-5 hover:border-terminal-green/50 transition-all">
+                  <div className="relative bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl p-4 hover:border-terminal-green/50 transition-all">
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 rounded-xl bg-${contact.color}/10 border border-${contact.color}/30 flex items-center justify-center`}>
-                        <contact.icon className={`w-5 h-5 text-${contact.color}`} />
+                      <div className={`w-10 h-10 rounded-lg bg-${contact.color}/10 border border-${contact.color}/30 flex items-center justify-center`}>
+                        <contact.icon className={`w-4 h-4 text-${contact.color}`} />
                       </div>
                       <div className="flex-1 font-mono">
                         <p className="text-xs text-muted-foreground uppercase tracking-wider">{contact.label}</p>
-                        <p className="text-base group-hover:text-terminal-green transition-colors">{contact.value}</p>
+                        <p className="text-sm group-hover:text-terminal-green transition-colors">{contact.value}</p>
                       </div>
-                      <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-terminal-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-terminal-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                     </div>
                   </div>
                 </a>
@@ -133,7 +118,7 @@ const Contact = () => {
                     onMouseLeave={() => setHoveredLink(null)}
                   >
                     <div className={`absolute -inset-[1px] rounded-xl bg-gradient-to-r from-${link.color} to-terminal-green opacity-0 blur-sm transition-opacity ${hoveredLink === link.id ? 'opacity-60' : ''}`} />
-                    <div className="relative flex items-center gap-3 px-5 py-4 bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl hover:border-terminal-green/50 transition-all">
+                    <div className="relative flex items-center gap-3 px-4 py-3.5 bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl hover:border-terminal-green/50 transition-all">
                       <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-terminal-green transition-colors" />
                       <div className="font-mono">
                         <p className="text-xs text-muted-foreground uppercase tracking-wider">{link.label}</p>
@@ -144,7 +129,7 @@ const Contact = () => {
                 ))}
               </div>
 
-              {/* Status indicator - matches home page style */}
+              {/* Status indicator */}
               <div className="flex items-center gap-3 px-5 py-3.5 bg-card/60 border border-border/50 rounded-xl font-mono text-sm">
                 <div className="relative">
                   <div className="w-3 h-3 rounded-full bg-terminal-green" />
