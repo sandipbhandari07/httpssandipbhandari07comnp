@@ -2,32 +2,10 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import BlobBackground from "@/components/BlobBackground";
-import { Gamepad2, Swords, Target, Trophy, TrendingUp, Shield, Map, Crosshair } from "lucide-react";
+import { Gamepad2, Swords, Target, Trophy, TrendingUp, Shield, Map, Crosshair, RefreshCw, Clock, Award, Star, Zap } from "lucide-react";
+import { useOpenDota } from "@/hooks/useOpenDota";
 
-// ─── Dota 2 Data ───
-const dotaProfile = {
-  username: "MiaMalkova",
-  rank: "Crusader III",
-  record: "404W - 510L",
-  winRate: "42.98%",
-  roles: { core: "63%", support: "37%" },
-  topHeroes: [
-    { name: "Sniper", matches: 81, winRate: "35.80%", kda: "2.57", role: "Core" },
-    { name: "Bristleback", matches: 74, winRate: "59.46%", kda: "2.88", role: "Core" },
-    { name: "Nature's Prophet", matches: 42, winRate: "52.38%", kda: "2.38", role: "Support" },
-    { name: "Pugna", matches: 39, winRate: "53.85%", kda: "2.90", role: "Support" },
-    { name: "Phantom Assassin", matches: 33, winRate: "42.42%", kda: "2.46", role: "Core" },
-  ],
-  recentMatches: [
-    { hero: "Zeus", result: "Won", duration: "31:16", kda: "2/4/25", type: "Turbo", ago: "17h ago" },
-    { hero: "Warlock", result: "Won", duration: "26:08", kda: "4/3/21", type: "Turbo", ago: "19h ago" },
-    { hero: "Zeus", result: "Won", duration: "39:28", kda: "5/4/35", type: "Turbo", ago: "23h ago" },
-    { hero: "Dawnbreaker", result: "Lost", duration: "19:57", kda: "0/5/7", type: "Turbo", ago: "1d ago" },
-    { hero: "Ogre Magi", result: "Won", duration: "26:56", kda: "3/11/23", type: "Turbo", ago: "1d ago" },
-  ],
-};
-
-// ─── Valorant Data ───
+// ─── Valorant Data (Static - API requires auth key) ───
 const valorantProfile = {
   username: "S Bhandari #NOTAP",
   currentRank: "Gold 3",
@@ -78,6 +56,44 @@ const valorantProfile = {
 const Gaming = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"dota" | "valorant">("valorant");
+  const { profile: dotaProfile, loading: dotaLoading, lastUpdated, error: dotaError, refetch, getRankName } = useOpenDota();
+
+  // Compute Dota 2 achievements from live data
+  const dotaAchievements = dotaProfile ? [
+    {
+      icon: <Trophy className="w-5 h-5 text-yellow-400" />,
+      title: "Battle Veteran",
+      desc: `${dotaProfile.totalMatches} total matches played`,
+      unlocked: dotaProfile.totalMatches >= 100,
+    },
+    {
+      icon: <Star className="w-5 h-5 text-terminal-cyan" />,
+      title: "Win Streak Hunter",
+      desc: `${dotaProfile.wins} victories achieved`,
+      unlocked: dotaProfile.wins >= 100,
+    },
+    {
+      icon: <Zap className="w-5 h-5 text-terminal-green" />,
+      title: "Hero Explorer",
+      desc: `${dotaProfile.topHeroes.length}+ heroes mastered`,
+      unlocked: dotaProfile.topHeroes.length >= 5,
+    },
+    {
+      icon: <Award className="w-5 h-5 text-terminal-purple" />,
+      title: "Ranked Warrior",
+      desc: `Achieved ${getRankName(dotaProfile.rank)}`,
+      unlocked: !!dotaProfile.rank,
+    },
+    {
+      icon: <Target className="w-5 h-5 text-red-400" />,
+      title: "Slayer",
+      desc: (() => {
+        const totalKills = dotaProfile.recentMatches.reduce((s, m) => s + m.kills, 0);
+        return `${totalKills} kills in last ${dotaProfile.recentMatches.length} matches`;
+      })(),
+      unlocked: true,
+    },
+  ] : [];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -96,7 +112,7 @@ const Gaming = () => {
             Game <span className="text-terminal-green">Profiles</span>
           </h1>
           <p className="text-muted-foreground font-mono text-sm mb-8">
-            // When I'm not coding, I'm fragging.
+            // When I'm not coding, I'm fragging. Data refreshes every 5 minutes.
           </p>
 
           {/* Tab Switcher */}
@@ -297,116 +313,181 @@ const Gaming = () => {
           {/* ─── DOTA 2 TAB ─── */}
           {activeTab === "dota" && (
             <div className="space-y-6 animate-fade-in">
-              {/* Profile Card */}
-              <div className="flex items-center gap-4 bg-card/60 border border-border/50 rounded-xl p-5">
-                <img
-                  src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/90/905e79443be93e55772b518e8f81fde1d9b3fcb0_full.jpg"
-                  alt="Dota 2 Avatar"
-                  className="w-16 h-16 rounded-xl border-2 border-terminal-green/40 object-cover"
-                />
-                <div>
-                  <p className="text-xl font-bold">{dotaProfile.username}</p>
-                  <p className="text-sm text-muted-foreground font-mono">Dota 2 Player • {dotaProfile.rank}</p>
+              {/* Live Status Bar */}
+              <div className="flex items-center justify-between bg-terminal-green/5 border border-terminal-green/20 rounded-xl px-4 py-2.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-terminal-green animate-pulse" />
+                  <span className="font-mono text-xs text-terminal-green">LIVE DATA • OpenDota API</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  {lastUpdated && (
+                    <span className="font-mono text-xs text-muted-foreground flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {lastUpdated.toLocaleTimeString()}
+                    </span>
+                  )}
+                  <button
+                    onClick={refetch}
+                    className="text-terminal-green hover:text-terminal-green/80 transition-colors"
+                    title="Refresh now"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${dotaLoading ? "animate-spin" : ""}`} />
+                  </button>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-card/60 border border-border/50 rounded-xl p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Shield className="w-5 h-5 text-terminal-green" />
-                    <span className="font-mono text-sm text-muted-foreground">Rank</span>
-                  </div>
-                  <p className="text-2xl font-bold text-terminal-green">{dotaProfile.rank}</p>
-                  <p className="text-xs text-muted-foreground mt-1 font-mono">@{dotaProfile.username}</p>
+              {dotaError && (
+                <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 font-mono text-sm">
+                  {dotaError} — showing cached data
                 </div>
-                <div className="bg-card/60 border border-border/50 rounded-xl p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Trophy className="w-5 h-5 text-yellow-400" />
-                    <span className="font-mono text-sm text-muted-foreground">Record</span>
-                  </div>
-                  <p className="text-2xl font-bold text-yellow-400">{dotaProfile.record}</p>
-                  <p className="text-xs text-muted-foreground mt-1 font-mono">{dotaProfile.winRate} Win Rate</p>
-                </div>
-                <div className="bg-card/60 border border-border/50 rounded-xl p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Target className="w-5 h-5 text-terminal-cyan" />
-                    <span className="font-mono text-sm text-muted-foreground">Role Split</span>
-                  </div>
-                  <p className="text-lg font-bold">
-                    <span className="text-terminal-green">{dotaProfile.roles.core}</span>
-                    <span className="text-muted-foreground mx-2">/</span>
-                    <span className="text-terminal-cyan">{dotaProfile.roles.support}</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1 font-mono">Core / Support</p>
-                </div>
-              </div>
+              )}
 
-              {/* Top Heroes */}
-              <div className="bg-card/60 border border-border/50 rounded-xl p-5">
-                <h3 className="font-mono text-sm text-terminal-green mb-4 flex items-center gap-2">
-                  <Swords className="w-4 h-4" /> Most Played Heroes
-                </h3>
-                <div className="space-y-2">
-                  {dotaProfile.topHeroes.map((h) => (
-                    <div key={h.name} className="flex items-center justify-between bg-background/40 rounded-lg px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <span className="font-semibold text-sm">{h.name}</span>
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-terminal-green/10 border border-terminal-green/30 text-terminal-green">
-                          {h.role}
-                        </span>
-                      </div>
-                      <div className="flex gap-4 font-mono text-xs">
-                        <span className="text-muted-foreground">{h.matches} games</span>
-                        <span className="text-terminal-green">{h.winRate} WR</span>
-                        <span className="text-terminal-cyan">{h.kda} KDA</span>
-                      </div>
+              {dotaLoading && !dotaProfile ? (
+                <div className="flex flex-col items-center justify-center py-20 gap-4">
+                  <RefreshCw className="w-8 h-8 text-terminal-green animate-spin" />
+                  <p className="font-mono text-sm text-muted-foreground">Fetching live data from OpenDota...</p>
+                </div>
+              ) : dotaProfile ? (
+                <>
+                  {/* Profile Card */}
+                  <div className="flex items-center gap-4 bg-card/60 border border-border/50 rounded-xl p-5">
+                    <img
+                      src={dotaProfile.avatar}
+                      alt="Dota 2 Avatar"
+                      className="w-16 h-16 rounded-xl border-2 border-terminal-green/40 object-cover"
+                    />
+                    <div>
+                      <p className="text-xl font-bold">{dotaProfile.username}</p>
+                      <p className="text-sm text-muted-foreground font-mono">
+                        Dota 2 Player • {getRankName(dotaProfile.rank)}
+                      </p>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
 
-              {/* Recent Matches */}
-              <div className="bg-card/60 border border-border/50 rounded-xl p-5">
-                <h3 className="font-mono text-sm text-terminal-green mb-4 flex items-center gap-2">
-                  <Swords className="w-4 h-4" /> Latest 5 Matches
-                </h3>
-                <div className="space-y-2">
-                  {dotaProfile.recentMatches.map((m, i) => (
-                    <div
-                      key={i}
-                      className={`flex items-center justify-between rounded-lg px-4 py-3 border ${
-                        m.result === "Won"
-                          ? "bg-terminal-green/5 border-terminal-green/20"
-                          : "bg-red-500/5 border-red-500/20"
-                      }`}
+                  {/* Stats Overview */}
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="bg-card/60 border border-border/50 rounded-xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Shield className="w-5 h-5 text-terminal-green" />
+                        <span className="font-mono text-sm text-muted-foreground">Rank</span>
+                      </div>
+                      <p className="text-2xl font-bold text-terminal-green">{getRankName(dotaProfile.rank)}</p>
+                      <p className="text-xs text-muted-foreground mt-1 font-mono">@{dotaProfile.username}</p>
+                    </div>
+                    <div className="bg-card/60 border border-border/50 rounded-xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Trophy className="w-5 h-5 text-yellow-400" />
+                        <span className="font-mono text-sm text-muted-foreground">Record</span>
+                      </div>
+                      <p className="text-2xl font-bold text-yellow-400">{dotaProfile.wins}W - {dotaProfile.losses}L</p>
+                      <p className="text-xs text-muted-foreground mt-1 font-mono">{dotaProfile.winRate} Win Rate</p>
+                    </div>
+                    <div className="bg-card/60 border border-border/50 rounded-xl p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <Target className="w-5 h-5 text-terminal-cyan" />
+                        <span className="font-mono text-sm text-muted-foreground">Total Matches</span>
+                      </div>
+                      <p className="text-2xl font-bold text-terminal-cyan">{dotaProfile.totalMatches}</p>
+                      <p className="text-xs text-muted-foreground mt-1 font-mono">Lifetime games</p>
+                    </div>
+                  </div>
+
+                  {/* Achievements */}
+                  <div className="bg-card/60 border border-border/50 rounded-xl p-5">
+                    <h3 className="font-mono text-sm text-yellow-400 mb-4 flex items-center gap-2">
+                      <Award className="w-4 h-4" /> Achievements
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {dotaAchievements.map((a, i) => (
+                        <div
+                          key={i}
+                          className={`flex items-center gap-3 rounded-lg px-4 py-3 border transition-all ${
+                            a.unlocked
+                              ? "bg-yellow-400/5 border-yellow-400/20"
+                              : "bg-card/20 border-border/30 opacity-50"
+                          }`}
+                        >
+                          <div className={`flex-shrink-0 ${!a.unlocked ? "grayscale" : ""}`}>
+                            {a.icon}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-sm">{a.title}</p>
+                            <p className="text-xs text-muted-foreground font-mono">{a.desc}</p>
+                          </div>
+                          {a.unlocked && (
+                            <span className="ml-auto text-xs text-yellow-400 font-mono">✓</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Top Heroes */}
+                  <div className="bg-card/60 border border-border/50 rounded-xl p-5">
+                    <h3 className="font-mono text-sm text-terminal-green mb-4 flex items-center gap-2">
+                      <Swords className="w-4 h-4" /> Most Played Heroes
+                    </h3>
+                    <div className="space-y-2">
+                      {dotaProfile.topHeroes.map((h) => (
+                        <div key={h.heroName} className="flex items-center justify-between bg-background/40 rounded-lg px-4 py-3">
+                          <span className="font-semibold text-sm">{h.heroName}</span>
+                          <div className="flex gap-4 font-mono text-xs">
+                            <span className="text-muted-foreground">{h.games} games</span>
+                            <span className="text-terminal-green">{h.winRate} WR</span>
+                            <span className="text-terminal-cyan">{h.wins}W</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Recent Matches - Now shows up to 10 */}
+                  <div className="bg-card/60 border border-border/50 rounded-xl p-5">
+                    <h3 className="font-mono text-sm text-terminal-green mb-4 flex items-center gap-2">
+                      <Swords className="w-4 h-4" /> Recent Matches (Live)
+                    </h3>
+                    <div className="space-y-2">
+                      {dotaProfile.recentMatches.map((m) => (
+                        <a
+                          key={m.match_id}
+                          href={`https://www.dotabuff.com/matches/${m.match_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex items-center justify-between rounded-lg px-4 py-3 border hover:brightness-110 transition-all ${
+                            m.result === "Won"
+                              ? "bg-terminal-green/5 border-terminal-green/20"
+                              : "bg-red-500/5 border-red-500/20"
+                          }`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className={`text-xs font-bold w-10 ${m.result === "Won" ? "text-terminal-green" : "text-red-400"}`}>
+                              {m.result === "Won" ? "WIN" : "LOSS"}
+                            </span>
+                            <span className="font-semibold text-sm w-32 truncate">{m.heroName}</span>
+                            <span className="text-xs text-muted-foreground hidden sm:inline">{m.gameMode}</span>
+                          </div>
+                          <div className="flex items-center gap-4 font-mono text-xs">
+                            <span className="text-foreground font-bold">{m.kills}/{m.deaths}/{m.assists}</span>
+                            <span className="text-muted-foreground">{Math.floor(m.duration / 60)}:{(m.duration % 60).toString().padStart(2, "0")}</span>
+                            <span className="text-muted-foreground hidden sm:inline">{m.ago}</span>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="text-center">
+                    <a
+                      href="https://www.dotabuff.com/players/1172803135"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-terminal-green/10 border border-terminal-green/40 rounded-xl text-terminal-green font-mono text-sm hover:bg-terminal-green/20 transition-all"
                     >
-                      <div className="flex items-center gap-4">
-                        <span className={`text-xs font-bold w-10 ${m.result === "Won" ? "text-terminal-green" : "text-red-400"}`}>
-                          {m.result === "Won" ? "WIN" : "LOSS"}
-                        </span>
-                        <span className="font-semibold text-sm w-28">{m.hero}</span>
-                        <span className="text-xs text-muted-foreground hidden sm:inline">{m.type}</span>
-                      </div>
-                      <div className="flex items-center gap-4 font-mono text-xs">
-                        <span className="text-foreground font-bold">{m.kda}</span>
-                        <span className="text-muted-foreground">{m.duration}</span>
-                        <span className="text-muted-foreground hidden sm:inline">{m.ago}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="text-center">
-                <a
-                  href="https://www.dotabuff.com/players/1172803135"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-terminal-green/10 border border-terminal-green/40 rounded-xl text-terminal-green font-mono text-sm hover:bg-terminal-green/20 transition-all"
-                >
-                  ↗ View Full Profile on Dotabuff
-                </a>
-              </div>
+                      ↗ View Full Profile on Dotabuff
+                    </a>
+                  </div>
+                </>
+              ) : null}
             </div>
           )}
         </div>
